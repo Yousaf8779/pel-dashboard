@@ -8,6 +8,10 @@ import plotly.express as px
 import plotly.graph_objects as go
 from streamlit_autorefresh import st_autorefresh
 import base64
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from datetime import datetime, timedelta
 
 # ──────────────── BASE64 BACKGROUND IMAGE ────────────────
 BG_IMAGE_B64 = "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"
@@ -176,13 +180,112 @@ def _show_login_page(wrong=False):
 if not check_password():
     st.stop()
 
+# ──────────────── EMAIL ALERT SYSTEM ────────────────
+def send_alert_email(risk_pct, day, vib, temp, recipient_email):
+    """Send professional HTML alert email via Gmail SMTP"""
+    try:
+        sender    = st.secrets.get("alert_email", "")
+        password  = st.secrets.get("alert_email_password", "")
+        if not sender or not password:
+            return False, "Email credentials not configured in secrets.toml"
+
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = f"🚨 PEL CRITICAL ALERT — Machine Failure Risk {risk_pct:.0f}% on Day {day}"
+        msg["From"]    = f"PEL Maintenance AI <{sender}>"
+        msg["To"]      = recipient_email
+
+        html = f"""
+        <html><body style="margin:0;padding:0;background:#0d1b2a;font-family:Arial,sans-serif;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;">
+          <tr><td style="background:linear-gradient(135deg,#001a3a,#003060);padding:30px;text-align:center;">
+            <h1 style="color:#00d4ff;margin:0;font-size:24px;letter-spacing:2px;">
+              ⚙️ PEL MAINTENANCE AI
+            </h1>
+            <p style="color:#a5d8ff;margin:5px 0 0;font-size:13px;letter-spacing:1px;">
+              Petroleum Exploration (Pvt.) Ltd. — Karachi
+            </p>
+          </td></tr>
+          <tr><td style="background:#ff2020;padding:20px;text-align:center;">
+            <h2 style="color:#ffffff;margin:0;font-size:20px;">
+              🚨 CRITICAL MACHINE FAILURE RISK DETECTED
+            </h2>
+          </td></tr>
+          <tr><td style="background:#0d1b2a;padding:30px;">
+            <table width="100%" cellpadding="10" cellspacing="0">
+              <tr>
+                <td style="background:#1b263b;border:1px solid #33415c;border-radius:8px;color:#a5d8ff;text-align:center;padding:15px;">
+                  <div style="font-size:32px;color:#ff4b4b;font-weight:bold;">{risk_pct:.0f}%</div>
+                  <div style="font-size:12px;margin-top:5px;">FAILURE RISK</div>
+                </td>
+                <td width="15"></td>
+                <td style="background:#1b263b;border:1px solid #33415c;border-radius:8px;color:#a5d8ff;text-align:center;padding:15px;">
+                  <div style="font-size:32px;color:#00d4ff;font-weight:bold;">{vib:.2f}</div>
+                  <div style="font-size:12px;margin-top:5px;">VIBRATION mm/s</div>
+                </td>
+                <td width="15"></td>
+                <td style="background:#1b263b;border:1px solid #33415c;border-radius:8px;color:#a5d8ff;text-align:center;padding:15px;">
+                  <div style="font-size:32px;color:#ffa500;font-weight:bold;">{temp:.0f}°C</div>
+                  <div style="font-size:12px;margin-top:5px;">TEMPERATURE</div>
+                </td>
+              </tr>
+            </table>
+            <div style="background:#1a0000;border:1px solid #ff4b4b;border-radius:8px;padding:20px;margin-top:20px;">
+              <p style="color:#ff8080;margin:0;font-size:15px;">
+                ⚠️ <b>Immediate action required.</b> Compressor failure risk has exceeded the critical threshold of 70%.
+                Please schedule emergency maintenance inspection.
+              </p>
+            </div>
+            <table width="100%" style="margin-top:20px;">
+              <tr>
+                <td style="color:#7ec8e3;font-size:13px;">📅 Alert Generated:</td>
+                <td style="color:#ffffff;font-size:13px;">{datetime.now().strftime('%d %B %Y — %H:%M:%S')}</td>
+              </tr>
+              <tr>
+                <td style="color:#7ec8e3;font-size:13px;">📊 Monitoring Day:</td>
+                <td style="color:#ffffff;font-size:13px;">Day #{day}</td>
+              </tr>
+              <tr>
+                <td style="color:#7ec8e3;font-size:13px;">🏭 Asset:</td>
+                <td style="color:#ffffff;font-size:13px;">Primary Compressor Unit</td>
+              </tr>
+              <tr>
+                <td style="color:#7ec8e3;font-size:13px;">📍 Location:</td>
+                <td style="color:#ffffff;font-size:13px;">PEL — Karachi, Pakistan</td>
+              </tr>
+            </table>
+          </td></tr>
+          <tr><td style="background:#001a3a;padding:15px;text-align:center;">
+            <p style="color:#7ec8e3;font-size:12px;margin:0;">
+              PEL AI Predictive Maintenance System v2.0 — Automated Alert
+            </p>
+          </td></tr>
+        </table>
+        </body></html>
+        """
+        msg.attach(MIMEText(html, "html"))
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(sender, password)
+            server.sendmail(sender, recipient_email, msg.as_string())
+        return True, "Email sent successfully!"
+    except Exception as e:
+        return False, str(e)
+
+def should_send_alert(risk):
+    """Cooldown: send alert max once every 60 minutes"""
+    if risk <= 0.70:
+        return False
+    last_sent = st.session_state.get("last_alert_sent")
+    if last_sent is None:
+        return True
+    return datetime.now() - last_sent > timedelta(minutes=60)
+
 # ──────────────── MAIN DASHBOARD STYLES ────────────────
 st.markdown(f"""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
 
     .stApp {{
-        background: linear-gradient(135deg, rgba(8,15,30,0.95) 0%, rgba(0,25,50,0.95) 100%),
+        background: linear-gradient(160deg, rgba(4,12,28,0.97) 0%, rgba(2,18,40,0.97) 50%, rgba(0,10,25,0.97) 100%),
                     url("data:image/jpeg;base64,{BG_IMAGE_B64}");
         background-size: cover;
         background-position: center;
@@ -190,69 +293,78 @@ st.markdown(f"""
         color: #ffffff;
     }}
 
-    /* Animated top border */
+    /* Animated dual top border — corporate gold + cyan */
     .stApp::before {{
         content: '';
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 3px;
-        background: linear-gradient(90deg, #00d4ff, #0080ff, #00d4ff);
-        background-size: 200% 100%;
-        animation: borderAnim 3s linear infinite;
+        position: fixed; top: 0; left: 0;
+        width: 100%; height: 4px;
+        background: linear-gradient(90deg, #c9a84c, #00d4ff, #0066cc, #c9a84c);
+        background-size: 300% 100%;
+        animation: borderAnim 4s linear infinite;
         z-index: 9999;
     }}
-    @keyframes borderAnim {{ 0%{{background-position:0% 0%}} 100%{{background-position:200% 0%}} }}
+    @keyframes borderAnim {{ 0%{{background-position:0% 0%}} 100%{{background-position:300% 0%}} }}
 
     h1, h2, h3 {{
         font-family: 'Orbitron', monospace !important;
         color: #00d4ff !important;
         letter-spacing: 1px;
     }}
-    h1 {{ text-shadow: 0 0 20px rgba(0,212,255,0.6); }}
+    h1 {{ text-shadow: 0 0 25px rgba(0,212,255,0.5); }}
 
-    /* Metric cards */
+    /* Corporate metric cards with gold accent */
     div[data-testid="metric-container"] {{
-        background: linear-gradient(135deg, rgba(15,30,60,0.9), rgba(0,40,80,0.9)) !important;
-        border: 1px solid rgba(0,212,255,0.3) !important;
-        border-radius: 15px !important;
+        background: linear-gradient(135deg, rgba(10,22,48,0.95), rgba(5,15,38,0.95)) !important;
+        border: 1px solid rgba(201,168,76,0.25) !important;
+        border-top: 2px solid rgba(201,168,76,0.6) !important;
+        border-radius: 12px !important;
         padding: 20px !important;
         margin: 8px 0 !important;
-        box-shadow: 0 0 20px rgba(0,180,216,0.2), inset 0 0 20px rgba(0,180,216,0.03) !important;
+        box-shadow: 0 4px 25px rgba(0,0,0,0.4), 0 0 15px rgba(0,102,204,0.1) !important;
         transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(15px);
     }}
     div[data-testid="metric-container"]:hover {{
-        box-shadow: 0 0 40px rgba(0,212,255,0.5) !important;
+        border-color: rgba(201,168,76,0.6) !important;
+        border-top-color: #c9a84c !important;
+        box-shadow: 0 8px 35px rgba(0,0,0,0.5), 0 0 25px rgba(201,168,76,0.15) !important;
         transform: translateY(-4px);
-        border-color: rgba(0,212,255,0.7) !important;
     }}
     div[data-testid="metric-container"] label {{
-        color: #7ec8e3 !important;
-        font-size: 13px !important;
-        font-family: 'Rajdhani', sans-serif !important;
-        letter-spacing: 1px;
+        color: #8aabce !important;
+        font-size: 11px !important;
+        font-family: 'Inter', sans-serif !important;
+        letter-spacing: 2px;
         text-transform: uppercase;
+        font-weight: 500;
     }}
     div[data-testid="metric-container"] > div > div:nth-child(2) {{
         color: #ffffff !important;
-        font-size: 38px !important;
+        font-size: 34px !important;
         font-weight: bold !important;
         font-family: 'Orbitron', monospace !important;
     }}
-    div[data-testid="metric-delta"] {{ color: #00ff88 !important; font-size: 14px !important; }}
+    div[data-testid="metric-delta"] {{ color: #c9a84c !important; font-size: 13px !important; font-weight:600 !important; }}
 
-    /* Buttons */
+    /* Corporate buttons */
     .stButton > button {{
-        background: linear-gradient(135deg, #00b4d8, #0077b6) !important;
+        background: linear-gradient(135deg, #0055a5, #003d7a) !important;
         color: #ffffff !important;
-        font-weight: bold !important;
-        border: none !important;
-        border-radius: 10px !important;
-        font-family: 'Rajdhani', sans-serif !important;
-        letter-spacing: 1px;
+        font-weight: 600 !important;
+        border: 1px solid rgba(201,168,76,0.3) !important;
+        border-radius: 8px !important;
+        font-family: 'Inter', sans-serif !important;
+        letter-spacing: 0.5px;
         transition: all 0.3s ease;
+        text-transform: uppercase;
+        font-size: 12px !important;
     }}
-    .stButton > button:hover {{ box-shadow: 0 0 20px rgba(0,180,216,0.6) !important; transform: translateY(-2px); }}
+    .stButton > button:hover {{
+        background: linear-gradient(135deg, #0066cc, #0055a5) !important;
+        border-color: rgba(201,168,76,0.7) !important;
+        box-shadow: 0 0 20px rgba(0,102,204,0.4) !important;
+        transform: translateY(-2px);
+    }}
 
     /* Progress bar */
     .stProgress > div > div > div {{ background: linear-gradient(90deg, #00b4d8, #ff4b4b) !important; }}
@@ -749,6 +861,65 @@ with tab3:
             st.markdown("<div class='alert-warning'>🟡 ELEVATED RISK — Schedule maintenance soon</div>", unsafe_allow_html=True)
         else:
             st.markdown("<div class='alert-ok'>🟢 ALL SYSTEMS NORMAL — No immediate action needed</div>", unsafe_allow_html=True)
+
+        # ── EMAIL ALERT SECTION ──
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.markdown("""
+            <div style='background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.25);
+                        border-radius:12px;padding:18px;'>
+                <div style='color:#00d4ff;font-family:Orbitron,monospace;font-size:13px;
+                            font-weight:700;letter-spacing:1px;margin-bottom:12px;'>
+                    📧 EMAIL ALERT SYSTEM
+                </div>
+        """, unsafe_allow_html=True)
+
+        alert_email = st.text_input(
+            "Recipient Email",
+            placeholder="engineer@pel.com.pk",
+            key="alert_email_input",
+            label_visibility="collapsed"
+        )
+
+        col_btn1, col_btn2 = st.columns(2)
+        with col_btn1:
+            if st.button("📧 Send Alert Now", use_container_width=True):
+                if alert_email:
+                    with st.spinner("Sending..."):
+                        ok, msg_result = send_alert_email(
+                            risk * 100, current_day,
+                            float(latest['Compressor_Vibration']),
+                            float(latest['Compressor_Temperature']),
+                            alert_email
+                        )
+                    if ok:
+                        st.session_state["last_alert_sent"] = datetime.now()
+                        st.success("✅ Alert email sent!")
+                    else:
+                        st.error(f"❌ Failed: {msg_result}")
+                else:
+                    st.warning("Enter recipient email first")
+
+        with col_btn2:
+            auto_alert = st.toggle("🔔 Auto Alert", value=st.session_state.get("auto_alert_on", False), key="auto_alert_toggle")
+            st.session_state["auto_alert_on"] = auto_alert
+
+        # Show last sent time
+        last_sent = st.session_state.get("last_alert_sent")
+        if last_sent:
+            st.markdown(f"<div style='color:#7ec8e3;font-size:12px;font-family:Rajdhani;margin-top:5px;'>Last sent: {last_sent.strftime('%d %b %Y %H:%M')}</div>", unsafe_allow_html=True)
+
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        # Auto-send logic
+        if st.session_state.get("auto_alert_on") and alert_email and should_send_alert(risk):
+            ok, _ = send_alert_email(
+                risk * 100, current_day,
+                float(latest['Compressor_Vibration']),
+                float(latest['Compressor_Temperature']),
+                alert_email
+            )
+            if ok:
+                st.session_state["last_alert_sent"] = datetime.now()
 
     # Recent Data Table
     st.markdown("<br><h3 style='font-size:15px;'>📂 FULL DATA LOG (Last 30 Days)</h3>", unsafe_allow_html=True)
