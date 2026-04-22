@@ -42,6 +42,7 @@ def check_password():
         return True
 
 def _show_login_page(wrong=False):
+    # STEP 1: Inject CSS separately
     st.markdown(f"""
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap');
@@ -53,183 +54,123 @@ def _show_login_page(wrong=False):
             background-position: center;
             background-attachment: fixed;
         }}
-
-        /* Animated floating gears */
-        .gear-container {{
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 0;
-        }}
-        .gear {{
-            position: absolute;
-            opacity: 0.08;
-            animation: rotateCW 20s linear infinite;
-        }}
-        .gear-ccw {{ animation: rotateCCW 25s linear infinite; }}
+        .gear {{ position:fixed; opacity:0.08; animation:rotateCW 20s linear infinite; font-size:120px; }}
+        .gear-ccw {{ animation:rotateCCW 25s linear infinite !important; }}
         @keyframes rotateCW  {{ from{{transform:rotate(0deg)}} to{{transform:rotate(360deg)}} }}
         @keyframes rotateCCW {{ from{{transform:rotate(360deg)}} to{{transform:rotate(0deg)}} }}
-
-        /* Scanning line animation */
-        .scan-line {{
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 3px;
-            background: linear-gradient(90deg, transparent, #00d4ff, transparent);
-            animation: scan 4s ease-in-out infinite;
-            z-index: 1;
-            opacity: 0.5;
-        }}
+        .scan-line {{ position:fixed; top:0; left:0; width:100%; height:3px;
+            background:linear-gradient(90deg,transparent,#00d4ff,transparent);
+            animation:scan 4s ease-in-out infinite; z-index:1; opacity:0.5; }}
         @keyframes scan {{ 0%{{top:0%}} 100%{{top:100%}} }}
-
-        /* Pulse rings */
-        .pulse-ring {{
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px; height: 300px;
-            border: 1px solid rgba(0,212,255,0.3);
-            border-radius: 50%;
-            animation: pulse-expand 3s ease-out infinite;
-            z-index: 0;
-        }}
-        .pulse-ring:nth-child(2) {{ animation-delay: 1s; }}
-        .pulse-ring:nth-child(3) {{ animation-delay: 2s; }}
+        .pulse-ring {{ position:fixed; top:50%; left:50%;
+            transform:translate(-50%,-50%); width:300px; height:300px;
+            border:1px solid rgba(0,212,255,0.3); border-radius:50%;
+            animation:pulse-expand 3s ease-out infinite; z-index:0; }}
+        .pulse-ring:nth-child(2){{animation-delay:1s;}}
+        .pulse-ring:nth-child(3){{animation-delay:2s;}}
         @keyframes pulse-expand {{
-            0%  {{ transform: translate(-50%,-50%) scale(0.8); opacity:0.6; }}
-            100%{{ transform: translate(-50%,-50%) scale(2.5); opacity:0; }}
+            0%{{transform:translate(-50%,-50%) scale(0.8);opacity:0.6;}}
+            100%{{transform:translate(-50%,-50%) scale(2.5);opacity:0;}}
         }}
-
-        /* Login card */
         .login-card {{
-            background: rgba(10,20,40,0.85);
-            border: 1px solid rgba(0,212,255,0.4);
-            border-radius: 20px;
-            padding: 40px;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 0 60px rgba(0,212,255,0.2), inset 0 0 30px rgba(0,212,255,0.03);
-            max-width: 500px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
+            background:rgba(10,20,40,0.88);
+            border:1px solid rgba(0,212,255,0.4);
+            border-radius:20px; padding:35px;
+            backdrop-filter:blur(20px);
+            box-shadow:0 0 60px rgba(0,212,255,0.2);
+            max-width:500px; margin:0 auto; position:relative; z-index:2;
         }}
         .login-title {{
-            font-family: 'Orbitron', monospace;
-            color: #00d4ff;
-            font-size: 28px;
-            font-weight: 900;
-            text-align: center;
-            text-shadow: 0 0 30px rgba(0,212,255,0.8);
-            margin-bottom: 5px;
-            letter-spacing: 2px;
+            font-family:'Orbitron',monospace; color:#00d4ff;
+            font-size:24px; font-weight:900; text-align:center;
+            text-shadow:0 0 30px rgba(0,212,255,0.8);
+            margin-bottom:5px; letter-spacing:2px;
         }}
         .login-sub {{
-            font-family: 'Rajdhani', sans-serif;
-            color: #a5d8ff;
-            text-align: center;
-            font-size: 16px;
-            margin-bottom: 25px;
-            letter-spacing: 1px;
+            font-family:'Rajdhani',sans-serif; color:#a5d8ff;
+            text-align:center; font-size:15px; margin-bottom:15px; letter-spacing:1px;
         }}
         .company-badge {{
-            background: linear-gradient(135deg, #001a3a, #003060);
-            border: 1px solid rgba(0,212,255,0.3);
-            border-radius: 10px;
-            padding: 8px 20px;
-            display: inline-block;
-            margin: 10px auto;
-            font-family: 'Rajdhani', sans-serif;
-            color: #a5d8ff;
-            font-size: 13px;
-            letter-spacing: 2px;
+            background:linear-gradient(135deg,#001a3a,#003060);
+            border:1px solid rgba(0,212,255,0.3); border-radius:10px;
+            padding:6px 16px; display:inline-block;
+            font-family:'Rajdhani',sans-serif; color:#a5d8ff;
+            font-size:12px; letter-spacing:2px;
         }}
-
-        /* Corner decorations */
-        .corner-tl, .corner-tr, .corner-bl, .corner-br {{
-            position: absolute;
-            width: 20px; height: 20px;
-            border-color: #00d4ff;
-            border-style: solid;
-            opacity: 0.7;
+        .corner-tl,.corner-tr,.corner-bl,.corner-br {{
+            position:absolute; width:18px; height:18px;
+            border-color:#00d4ff; border-style:solid; opacity:0.7;
         }}
-        .corner-tl {{ top:10px; left:10px; border-width:2px 0 0 2px; border-radius:3px 0 0 0; }}
-        .corner-tr {{ top:10px; right:10px; border-width:2px 2px 0 0; border-radius:0 3px 0 0; }}
-        .corner-bl {{ bottom:10px; left:10px; border-width:0 0 2px 2px; border-radius:0 0 0 3px; }}
-        .corner-br {{ bottom:10px; right:10px; border-width:0 2px 2px 0; border-radius:0 0 3px 0; }}
-
-        /* Input styling */
-        .stTextInput input {{
-            background: rgba(0,30,60,0.8) !important;
-            border: 1px solid rgba(0,212,255,0.4) !important;
-            border-radius: 10px !important;
-            color: #ffffff !important;
-            font-family: 'Rajdhani', sans-serif !important;
-            font-size: 16px !important;
-            padding: 12px 15px !important;
-        }}
-        .stTextInput input:focus {{
-            border-color: #00d4ff !important;
-            box-shadow: 0 0 20px rgba(0,212,255,0.3) !important;
-        }}
-
-        /* Status indicator dots */
+        .corner-tl{{top:10px;left:10px;border-width:2px 0 0 2px;border-radius:3px 0 0 0;}}
+        .corner-tr{{top:10px;right:10px;border-width:2px 2px 0 0;border-radius:0 3px 0 0;}}
+        .corner-bl{{bottom:10px;left:10px;border-width:0 0 2px 2px;border-radius:0 0 0 3px;}}
+        .corner-br{{bottom:10px;right:10px;border-width:0 2px 2px 0;border-radius:0 0 3px 0;}}
         .status-dot {{
-            display: inline-block;
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            background: #00ff88;
-            margin-right: 8px;
-            animation: blink 1.5s ease-in-out infinite;
+            display:inline-block; width:8px; height:8px; border-radius:50%;
+            background:#00ff88; margin-right:8px;
+            animation:blink 1.5s ease-in-out infinite;
         }}
-        @keyframes blink {{ 0%,100%{{opacity:1}} 50%{{opacity:0.2}} }}
-
-        /* Hide streamlit branding on login */
-        #MainMenu, footer {{ visibility: hidden; }}
-        .block-container {{ padding-top: 50px !important; }}
+        @keyframes blink{{0%,100%{{opacity:1}}50%{{opacity:0.2}}}}
+        .stTextInput input {{
+            background:rgba(0,30,60,0.8) !important;
+            border:1px solid rgba(0,212,255,0.4) !important;
+            border-radius:10px !important; color:#ffffff !important;
+            font-size:16px !important; padding:12px 15px !important;
+        }}
+        #MainMenu, footer {{ visibility:hidden; }}
+        .block-container {{ padding-top:40px !important; }}
         </style>
+    """, unsafe_allow_html=True)
 
-        <!-- Animated Background Elements -->
-        <div class="gear-container">
-            <!-- Gear SVGs as decorative elements -->
-            <div class="gear" style="top:5%;left:5%;font-size:150px">⚙️</div>
-            <div class="gear gear-ccw" style="bottom:10%;right:5%;font-size:120px">⚙️</div>
-            <div class="gear" style="top:40%;left:2%;font-size:80px;animation-duration:15s">⚙️</div>
-            <div class="gear gear-ccw" style="top:20%;right:8%;font-size:90px;animation-duration:18s">⚙️</div>
+    # STEP 2: Inject animated background elements separately
+    st.markdown("""
+        <div style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;">
+            <div class="gear" style="top:5%;left:3%;">⚙️</div>
+            <div class="gear gear-ccw" style="bottom:8%;right:4%;">⚙️</div>
+            <div class="gear" style="top:40%;left:1%;font-size:80px;animation-duration:15s;">⚙️</div>
+            <div class="gear gear-ccw" style="top:15%;right:6%;font-size:90px;animation-duration:18s;">⚙️</div>
         </div>
-
         <div class="scan-line"></div>
         <div class="pulse-ring"></div>
         <div class="pulse-ring"></div>
         <div class="pulse-ring"></div>
+    """, unsafe_allow_html=True)
 
-        <!-- Login Card -->
+    # STEP 3: Inject the login card separately
+    wrong_msg = ""
+    if wrong:
+        wrong_msg = """
+        <div style="max-width:500px;margin:10px auto;">
+            <div style="background:rgba(255,50,50,0.15);border:1px solid rgba(255,80,80,0.5);
+                        border-radius:10px;padding:12px;text-align:center;
+                        color:#ff8080;font-family:Rajdhani,sans-serif;font-size:15px;">
+                ❌ Incorrect Password — Please Try Again
+            </div>
+        </div>"""
+
+    st.markdown(f"""
         <div class="login-card">
             <div class="corner-tl"></div>
             <div class="corner-tr"></div>
             <div class="corner-bl"></div>
             <div class="corner-br"></div>
-
-            <div style="text-align:center; margin-bottom:20px;">
+            <div style="text-align:center;margin-bottom:18px;">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFQ3PjNzDquakJIda7FDzsH32tqqD-_vomTQ&s"
-                     width="100" style="border-radius:10px; border:2px solid rgba(0,212,255,0.4);">
+                     width="90" style="border-radius:10px;border:2px solid rgba(0,212,255,0.4);">
             </div>
-
             <div class="login-title">PEL MAINTENANCE AI</div>
             <div class="login-sub">Petroleum Exploration (Pvt.) Ltd.</div>
-            <div style="text-align:center;">
+            <div style="text-align:center;margin-bottom:12px;">
                 <span class="company-badge">⚡ PREDICTIVE ANALYTICS PLATFORM v2.0</span>
             </div>
-            <br>
-            <div style="text-align:center; margin-bottom:10px;">
+            <div style="text-align:center;margin-bottom:8px;">
                 <span class="status-dot"></span>
-                <span style="color:#a5d8ff; font-size:13px; font-family:'Rajdhani',sans-serif;">
+                <span style="color:#a5d8ff;font-size:13px;font-family:Rajdhani,sans-serif;">
                     SYSTEM ONLINE — SECURE ACCESS REQUIRED
                 </span>
             </div>
         </div>
-        {"<br><div style='max-width:500px;margin:10px auto;'><div style='background:rgba(255,50,50,0.15);border:1px solid rgba(255,80,80,0.5);border-radius:10px;padding:12px;text-align:center;color:#ff8080;font-family:Rajdhani,sans-serif;'>❌ Incorrect Password — Please Try Again</div></div>" if wrong else ""}
+        {wrong_msg}
     """, unsafe_allow_html=True)
 
 if not check_password():
@@ -764,8 +705,7 @@ with tab3:
                     'Compressor_Temperature': 'Temp (°C)',
                     'Predicted_Risk': 'Risk Score'
                 }).style
-                .format({'Vibration (mm/s)': '{:.2f}', 'Temp (°C)': '{:.1f}', 'Risk Score': '{:.1%}'})
-                .background_gradient(cmap='OrRd', subset=['Risk Score']),
+                .format({'Vibration (mm/s)': '{:.2f}', 'Temp (°C)': '{:.1f}', 'Risk Score': '{:.1%}'}),
                 height=350, use_container_width=True
             )
         else:
@@ -822,7 +762,7 @@ with tab3:
             'Fuel_Consumption': '{:.1f}',
             'Carbon_Emission': '{:.1f}',
             'Predicted_Risk': '{:.1%}'
-        }).background_gradient(cmap='RdYlGn_r', subset=['Predicted_Risk']),
+        }),
         use_container_width=True, height=300
     )
 
