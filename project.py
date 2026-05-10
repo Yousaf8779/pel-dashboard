@@ -703,7 +703,7 @@ with tabs[5]:
       <h4 style='color:#1a2a4a;margin:0 0 10px;'>Connected ThingSpeak Channels</h4>
       <p style='color:#6b7280;font-size:13px;margin:0 0 16px;'>
         Yeh channels ThingSpeak IoT platform se connected hain. 
-        Jab tum sensor data bhejoge, dashboard automatically real readings dikhayega.
+        When sensor data is sent, the dashboard will automatically display real readings.
       </p>
     </div>""", unsafe_allow_html=True)
 
@@ -741,75 +741,10 @@ with tabs[5]:
           </div>
         </div>""", unsafe_allow_html=True)
 
-    st.markdown("<div style='height:20px;'></div>", unsafe_allow_html=True)
-    st.markdown("### 📤 Data Bhejne ka Tarika")
-
-    st.markdown("""<div class='scard'>
-      <h4 style='color:#1a2a4a;margin:0 0 12px;'>Option 1 — Python Script (Recommended)</h4>
-      <p style='color:#6b7280;font-size:13px;'>
-        Yeh script run karo — ThingSpeak channel mein sensor data jayega aur dashboard live ho jayega:
-      </p>
-    </div>""", unsafe_allow_html=True)
-
-    python_script = '''import requests
-import time
-import random
-
-# ThingSpeak Write API Keys (Settings > API Keys se lo)
-CHANNELS = {
-    "Compressor Unit A": {"write_key": "YOUR_WRITE_KEY_1", "channel_id": "3376043"},
-    "Pump Station B":    {"write_key": "YOUR_WRITE_KEY_2", "channel_id": "3376046"},
-    "Gas Turbine C":     {"write_key": "YOUR_WRITE_KEY_3", "channel_id": "3376050"},
-    "Generator D":       {"write_key": "YOUR_WRITE_KEY_4", "channel_id": "3376053"},
-}
-
-def send_sensor_data(machine, vibration, temperature, fuel):
-    """ThingSpeak channel mein data bhejo"""
-    key = CHANNELS[machine]["write_key"]
-    url = f"https://api.thingspeak.com/update"
-    params = {
-        "api_key": key,
-        "field1": vibration,    # Vibration mm/s
-        "field2": temperature,  # Temperature °C
-        "field3": fuel          # Fuel Liters
-    }
-    resp = requests.get(url, params=params)
-    print(f"{machine}: Vib={vibration:.2f}, Temp={temperature:.1f}, Fuel={fuel:.0f} → Status: {resp.text}")
-
-# Continuous sensor simulation (ya real sensor values yahan dalein)
-while True:
-    for machine in CHANNELS:
-        send_sensor_data(
-            machine,
-            vibration    = random.uniform(2.0, 10.5),   # Real sensor se lo
-            temperature  = random.uniform(45.0, 92.0),  # Real sensor se lo
-            fuel         = random.uniform(80.0, 500.0)  # Real sensor se lo
-        )
-    time.sleep(15)  # Har 15 second mein data bhejo (ThingSpeak free limit)
-'''
-
-    st.code(python_script, language='python')
-
-    st.markdown("""<div class='awarn'>
-      <b>⚠️ Write API Key Kahan Se Milegi?</b><br>
-      ThingSpeak → Channel → API Keys tab → <b>Write API Key</b> copy karo.<br>
-      Read API key alag hoti hai (jo hum use kar rahe hain data fetch ke liye).<br>
-      Write key se data <b>bheja</b> jata hai, Read key se data <b>liya</b> jata hai.
-    </div>""", unsafe_allow_html=True)
-
-    st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
-    st.markdown("""<div class='scard'>
-      <h4 style='color:#1a2a4a;margin:0 0 10px;'>Option 2 — Manual CSV Upload</h4>
-      <p style='color:#6b7280;font-size:13px;'>
-        Jab company real sensor data CSV mein de, Settings tab mein upload karo.
-        Dashboard automatically ML model retrain karega real data pe.
-      </p>
-    </div>""", unsafe_allow_html=True)
-
     st.markdown("""<div class='aok'>
-      <b>✅ Future Ready:</b> Jab PEL real sensors lagaye (temperature, vibration, flow meters),
-      unhe ThingSpeak ya direct REST API se connect karo — dashboard ka koi code change nahi hoga,
-      sirf Write API key script mein dalo aur data live aa jayega!
+      <b>✅ Future Ready:</b> When PEL installs real sensors (temperature, vibration, flow meters),
+      they can be connected via ThingSpeak or direct REST API — no dashboard code changes required.
+      Data will go live automatically!
     </div>""", unsafe_allow_html=True)
 
 # ══ TAB 7 – SETTINGS ═════════════════════════════════════════════
@@ -929,13 +864,7 @@ with tabs[7]:
         st.markdown("""<div class='scard' style='border-top-color:#c0392b;'>
           <div style='font-size:20px;font-weight:700;color:#1a2a4a;'>Muhammad Yousaf</div>
           <div style='font-size:13px;color:#1a3a6b;font-weight:600;margin:4px 0 12px;'>
-            AI & Software Engineer · ThingSpeak IoT Integration
-          </div>
-          <div style='font-size:13px;color:#374151;line-height:1.7;'>
-            🎓 Studying AI at IMSciences, Peshawar<br>
-            💻 Built this system with ThingSpeak real-sensor integration,
-            Random Forest ML, and enterprise-grade UI.<br>
-            🔧 System future-ready: plug in real sensors → live data automatically.
+            Web Developer &amp; AI Student at IMS Peshawar
           </div>
         </div>""", unsafe_allow_html=True)
 
