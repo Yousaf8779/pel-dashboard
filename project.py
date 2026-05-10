@@ -267,15 +267,20 @@ def train_models(mdata):
 mdata, data_sources = load_all_data()
 
 # Add predicted risk
-if "models" not in st.session_state:
-    st.session_state.models, st.session_state.acc = train_models(mdata)
+# Always retrain to match current data columns
+st.session_state.models, st.session_state.acc = train_models(mdata)
 
 for m in MACHINES:
     if m in st.session_state.models:
         df = mdata[m]
-        df['Predicted_Risk'] = st.session_state.models[m].predict_proba(
-            df[['Vibration', 'Temperature', 'Fuel']])[:, 1]
+        try:
+            df['Predicted_Risk'] = st.session_state.models[m].predict_proba(
+                df[['Vibration', 'Temperature', 'Fuel']])[:, 1]
+        except Exception:
+            df['Predicted_Risk'] = 0.3
         mdata[m] = df
+    else:
+        mdata[m]['Predicted_Risk'] = 0.3
 
 # Maintenance log
 if "mlog" not in st.session_state:
