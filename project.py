@@ -831,19 +831,54 @@ with tabs[7]:
     <div style='text-align:center;padding:28px 0 16px;'>
       <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFQ3PjNzDquakJIda7FDzsH32tqqD-_vomTQ&s'
            width='95' style='border-radius:10px;border:2px solid #e5e7eb;'>
-      <h2 style='color:#1a2a4a;margin:14px 0 5px;'>Petroleum Exploration (Pvt.) Ltd.</h2>
-      <p style='color:#6b7280;font-size:13px;'>Pakistan's Largest Private-Sector E&P Company</p>
+      <h2 style='color:#1a2a4a;margin:14px 0 5px;'>Petroleum Exploration (Pvt.) Ltd. — PEL</h2>
+      <p style='color:#6b7280;font-size:13px;'>Pakistan's Largest Private-Sector Exploration & Production Company</p>
+      <div style='display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px;'>
+        <span style='background:#eef2ff;border:1px solid #c7d2fe;border-radius:20px;padding:4px 13px;font-size:12px;color:#3730a3;'>📍 Islamabad, Pakistan</span>
+        <span style='background:#eef2ff;border:1px solid #c7d2fe;border-radius:20px;padding:4px 13px;font-size:12px;color:#3730a3;'>🏭 Oil & Gas E&P</span>
+        <span style='background:#eef2ff;border:1px solid #c7d2fe;border-radius:20px;padding:4px 13px;font-size:12px;color:#3730a3;'>📅 Est. 1994</span>
+        <span style='background:#eef2ff;border:1px solid #c7d2fe;border-radius:20px;padding:4px 13px;font-size:12px;color:#3730a3;'>🌍 International Operations</span>
+        <span style='background:#eef2ff;border:1px solid #c7d2fe;border-radius:20px;padding:4px 13px;font-size:12px;color:#3730a3;'>⚡ 40 MMCFD Gas Production</span>
+      </div>
     </div>""", unsafe_allow_html=True)
 
     st.markdown("""<div class='scard'>
       <h4 style='color:#1a2a4a;margin:0 0 10px;'>About PEL</h4>
       <p style='color:#374151;font-size:13px;line-height:1.7;margin:0;'>
-        Petroleum Exploration (Pvt.) Ltd. (PEL) is Pakistan's largest private-sector E&P company,
-        incorporated in 1994. PEL produces <b>40 MMCFD of gas</b> and holds the largest exploration
-        acreage among all private sector E&P companies in Pakistan.
+        Petroleum Exploration (Pvt.) Ltd. (PEL) is Pakistan's largest private-sector
+        Exploration & Production company, incorporated in 1994 under the Companies Ordinance 1984.
+        PEL is a subsidiary of the <b>Shahzad International Group of Companies</b> and serves as
+        the Group's core business in hydrocarbon exploration and production.
+        <br><br>
+        PEL currently produces <b>40 MMCFD of gas</b> from its concessions — approximately 1% of
+        Pakistan's total natural gas production. The company holds the <b>largest exploration acreage</b>
+        among all private sector E&P companies, including 6 development & production leases,
+        9 onshore blocks, 3 offshore blocks, and 3 overseas blocks in Morocco.
+        <br><br>
+        PEL recently made <b>four natural gas discoveries</b> in onshore Pakistan that will add
+        65 MMCFD to the national grid. PEL is also the <b>first Pakistani private-sector E&P company</b>
+        to venture into offshore exploration and international operations.
       </p>
     </div>""", unsafe_allow_html=True)
 
+    st.markdown("#### Key Operations & Projects")
+    op1, op2, op3, op4 = st.columns(4)
+    for col, ic, ttl, dsc in [
+        (op1, "🛢️", "Ayesha Gas Complex", "Badin South Concession, Sindh — producing gas continuously since Feb 2020."),
+        (op2, "⚡", "Kandra Gas Field", "Low BTU gas field developed for power generation with proven reserves."),
+        (op3, "🌊", "Offshore Exploration", "First Pakistani private E&P company with offshore exploration licenses."),
+        (op4, "🌍", "Morocco Operations", "Exploring three onshore blocks in Essaouira Basin with 75% working interest."),
+    ]:
+        with col:
+            st.markdown(f"""<div style='background:#fff;border-radius:10px;padding:16px;
+                border-top:3px solid #c0392b;box-shadow:0 1px 6px rgba(0,0,0,0.08);text-align:center;'>
+              <div style='font-size:28px;margin-bottom:8px;'>{ic}</div>
+              <div style='font-size:13px;font-weight:600;color:#1a2a4a;margin-bottom:6px;'>{ttl}</div>
+              <div style='font-size:12px;color:#6b7280;'>{dsc}</div>
+            </div>""", unsafe_allow_html=True)
+
+    st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
+    st.markdown("#### Company Statistics")
     cs1, cs2, cs3, cs4 = st.columns(4)
     cs1.metric("Gas Production", "40 MMCFD", "National Grid")
     cs2.metric("Exploration Blocks", "15+ Active", "Onshore & Offshore")
@@ -851,6 +886,28 @@ with tabs[7]:
     cs4.metric("Est.", "1994", "Islamabad, Pakistan")
 
     st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
+    st.markdown("#### Contact Information")
+    ct1, ct2 = st.columns(2)
+    with ct1:
+        st.markdown("""<div class='scard'>
+          <h5 style='color:#1a2a4a;margin:0 0 12px;'>🏢 Head Office — Islamabad</h5>
+          <div style='font-size:13px;color:#374151;line-height:2;'>
+            📍 20 Margalla Road, F-8/3, Islamabad, Pakistan<br>
+            📞 +92-51-2287170 to 2287175<br>
+            🌐 <a href="https://www.pepl.com.pk" target="_blank" style="color:#1a3a6b;">www.pepl.com.pk</a>
+          </div>
+        </div>""", unsafe_allow_html=True)
+    with ct2:
+        st.markdown("""<div class='scard'>
+          <h5 style='color:#1a2a4a;margin:0 0 12px;'>🔗 Connect With PEL</h5>
+          <div style='font-size:13px;color:#374151;line-height:2;'>
+            💼 <a href="https://peplportal.com" target="_blank" style="color:#1a3a6b;">peplportal.com</a> — Careers<br>
+            🔗 <a href="https://pk.linkedin.com/company/petroleumexplorationltd" target="_blank" style="color:#1a3a6b;">LinkedIn — PEL</a><br>
+            📘 <a href="https://www.facebook.com/PetroleumExplorationLtd" target="_blank" style="color:#1a3a6b;">Facebook — PEL</a>
+          </div>
+        </div>""", unsafe_allow_html=True)
+
+    st.markdown("<div style='height:1px;background:#e5e7eb;margin:20px 0;'></div>", unsafe_allow_html=True)
     st.markdown("#### 👨‍💻 Developed By")
     d1, d2 = st.columns([1, 3])
     with d1:
@@ -863,7 +920,7 @@ with tabs[7]:
     with d2:
         st.markdown("""<div class='scard' style='border-top-color:#c0392b;'>
           <div style='font-size:20px;font-weight:700;color:#1a2a4a;'>Muhammad Yousaf</div>
-          <div style='font-size:13px;color:#1a3a6b;font-weight:600;margin:4px 0 12px;'>
+          <div style='font-size:13px;color:#1a3a6b;font-weight:600;margin:4px 0 8px;'>
             Web Developer &amp; AI Student at IMS Peshawar
           </div>
         </div>""", unsafe_allow_html=True)
