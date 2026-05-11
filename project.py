@@ -839,54 +839,140 @@ with tabs[7]:
         <span style='background:#eef2ff;border:1px solid #c7d2fe;border-radius:20px;padding:4px 13px;font-size:12px;color:#3730a3;'>📅 Est. 1994</span>
         <span style='background:#eef2ff;border:1px solid #c7d2fe;border-radius:20px;padding:4px 13px;font-size:12px;color:#3730a3;'>🌍 International Operations</span>
         <span style='background:#eef2ff;border:1px solid #c7d2fe;border-radius:20px;padding:4px 13px;font-size:12px;color:#3730a3;'>⚡ 40 MMCFD Gas Production</span>
+        <span style='background:#eef2ff;border:1px solid #c7d2fe;border-radius:20px;padding:4px 13px;font-size:12px;color:#3730a3;'>🤝 12 JV Partners</span>
       </div>
     </div>""", unsafe_allow_html=True)
 
+    # Company Overview
     st.markdown("""<div class='scard'>
       <h4 style='color:#1a2a4a;margin:0 0 10px;'>About PEL</h4>
-      <p style='color:#374151;font-size:13px;line-height:1.7;margin:0;'>
+      <p style='color:#374151;font-size:13px;line-height:1.8;margin:0;'>
         Petroleum Exploration (Pvt.) Ltd. (PEL) is Pakistan's largest private-sector
         Exploration & Production company, incorporated in 1994 under the Companies Ordinance 1984.
-        PEL is a subsidiary of the <b>Shahzad International Group of Companies</b> and serves as
-        the Group's core business in hydrocarbon exploration and production.
+        PEL is a subsidiary of the <b>Shahzad International Group of Companies</b> and is the flagship
+        business in hydrocarbon exploration and production.
         <br><br>
-        PEL currently produces <b>40 MMCFD of gas</b> from its concessions — approximately 1% of
-        Pakistan's total natural gas production. The company holds the <b>largest exploration acreage</b>
-        among all private sector E&P companies, including 6 development & production leases,
-        9 onshore blocks, 3 offshore blocks, and 3 overseas blocks in Morocco.
+        PEL currently produces <b>40 MMCFD of gas</b> — approximately 1% of Pakistan's total national gas production.
+        The company holds the <b>largest exploration acreage</b> among all private sector E&P companies in Pakistan,
+        with 6 development & production leases, 9 onshore blocks, 3 offshore blocks, and 3 overseas blocks in Morocco.
+        PEL is organized into multi-disciplinary integrated teams and believes in optimally exploiting knowledge
+        and technology by partnering with industry leaders.
         <br><br>
-        PEL recently made <b>four natural gas discoveries</b> in onshore Pakistan that will add
-        65 MMCFD to the national grid. PEL is also the <b>first Pakistani private-sector E&P company</b>
-        to venture into offshore exploration and international operations.
+        PEL is also the <b>first Pakistani private-sector E&P company</b> to venture into offshore exploration
+        and international operations — currently exploring three onshore permits in Morocco through its affiliate
+        <b>Olympus Petroleum</b>.
       </p>
     </div>""", unsafe_allow_html=True)
 
-    st.markdown("#### Key Operations & Projects")
+    # Vision & Mission
+    vm1, vm2 = st.columns(2)
+    with vm1:
+        st.markdown("""<div class='scard' style='border-top-color:#1a3a6b;'>
+          <h5 style='color:#1a2a4a;margin:0 0 8px;'>🎯 Vision</h5>
+          <p style='color:#374151;font-size:13px;line-height:1.7;margin:0;'>
+            To play a major role in enabling Pakistan to become self-sufficient in its energy needs,
+            while enhancing the Company's footprint beyond Pakistan's frontiers and transforming
+            into a global business entity.
+          </p>
+        </div>""", unsafe_allow_html=True)
+    with vm2:
+        st.markdown("""<div class='scard' style='border-top-color:#c0392b;'>
+          <h5 style='color:#1a2a4a;margin:0 0 8px;'>🤝 JV Partners</h5>
+          <p style='color:#374151;font-size:13px;line-height:1.7;margin:0;'>
+            PEL has <b>12 Joint Venture partners</b> from Pakistan, Canada, Kuwait, UK, Morocco and Australia —
+            including OGDCL, PPL, BP, Gulf Petroleum Exploration, ONHYM, Sherritt, Spud, and Government Holding Pvt Ltd.
+          </p>
+        </div>""", unsafe_allow_html=True)
+
+    # Leadership
+    st.markdown("<div style='height:14px;'></div>", unsafe_allow_html=True)
+    st.markdown("#### 👥 Leadership & Board of Directors")
+    l1, l2, l3 = st.columns(3)
+    leaders = [
+        (l1, "Mr. Shahzad Zaheer", "Chairman & Chief Executive Officer",
+         "Heads the Shahzad International Group. Recently met with the Prime Minister of Pakistan to discuss national energy goals. Visited Ayesha Gas Complex with Directors and senior officials."),
+        (l2, "Mr. Shahbaz Zaheer", "Director",
+         "Firm believer in providing aspiring minds practical opportunities. Actively involved in project oversight, departmental collaboration, and promoting growth culture within PEL. Represented PEL at Petroleum Conference 2024."),
+        (l3, "Mr. Faisal Zafar", "Senior Business Executive",
+         "Holds ACCA from BPP University London & Masters in International Business from Coventry University UK. Oversees risk assessment, regulatory affairs, international transactions and commercial deals."),
+    ]
+    for col, name, title, bio in leaders:
+        with col:
+            st.markdown(f"""<div class='scard' style='text-align:center;'>
+              <div style='width:60px;height:60px;border-radius:50%;background:#e8edf5;
+                          margin:0 auto 10px;display:flex;align-items:center;justify-content:center;
+                          border:2px solid #1a3a6b;font-size:24px;'>👤</div>
+              <div style='font-size:14px;font-weight:700;color:#1a2a4a;'>{name}</div>
+              <div style='font-size:11px;font-weight:600;color:#1a3a6b;margin:4px 0 8px;
+                          text-transform:uppercase;letter-spacing:.5px;'>{title}</div>
+              <div style='font-size:12px;color:#6b7280;line-height:1.5;'>{bio}</div>
+            </div>""", unsafe_allow_html=True)
+
+    # Key Projects
+    st.markdown("<div style='height:14px;'></div>", unsafe_allow_html=True)
+    st.markdown("#### 🛢️ Key Projects & Operations")
     op1, op2, op3, op4 = st.columns(4)
     for col, ic, ttl, dsc in [
-        (op1, "🛢️", "Ayesha Gas Complex", "Badin South Concession, Sindh — producing gas continuously since Feb 2020."),
-        (op2, "⚡", "Kandra Gas Field", "Low BTU gas field developed for power generation with proven reserves."),
-        (op3, "🌊", "Offshore Exploration", "First Pakistani private E&P company with offshore exploration licenses."),
-        (op4, "🌍", "Morocco Operations", "Exploring three onshore blocks in Essaouira Basin with 75% working interest."),
+        (op1, "🛢️", "Ayesha Gas Complex", "Badin South Concession, Sindh — producing gas continuously since Feb 2020. Connected to SSGCL national grid."),
+        (op2, "⚡", "Zahrah North Discovery", "Latest gas/condensate discovery announced at exploration well Zahrah North-01 — adding to national reserves."),
+        (op3, "🌊", "Offshore Exploration", "First Pakistani private E&P company with deep water offshore licenses in Pakistan's territorial waters."),
+        (op4, "🌍", "Morocco — Olympus Petroleum", "Three onshore Haha permits in Essaouira Basin + Abda Doukkala reconnaissance license with 75% working interest."),
     ]:
         with col:
             st.markdown(f"""<div style='background:#fff;border-radius:10px;padding:16px;
                 border-top:3px solid #c0392b;box-shadow:0 1px 6px rgba(0,0,0,0.08);text-align:center;'>
               <div style='font-size:28px;margin-bottom:8px;'>{ic}</div>
               <div style='font-size:13px;font-weight:600;color:#1a2a4a;margin-bottom:6px;'>{ttl}</div>
-              <div style='font-size:12px;color:#6b7280;'>{dsc}</div>
+              <div style='font-size:12px;color:#6b7280;line-height:1.5;'>{dsc}</div>
             </div>""", unsafe_allow_html=True)
 
-    st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
-    st.markdown("#### Company Statistics")
+    # Recent News
+    st.markdown("<div style='height:14px;'></div>", unsafe_allow_html=True)
+    st.markdown("#### 📰 Recent News & Achievements")
+    news = [
+        ("🏆", "Petroleum Conference 2024", "PEL participated in Petroleum Conference 2024 held on January 30th in Islamabad alongside key industry players including OGDCL and PPL."),
+        ("🌐", "ADIPEC 2023", "PEL participated in International Petroleum Exhibition & Conference (ADIPEC) — representing Pakistan's private E&P sector internationally."),
+        ("🔍", "Exploration Block Revival", "PEL announced successful revival of exploration blocks in Pakistan following a rigorous regulatory process."),
+        ("🤝", "PM Meeting", "Chairman Mr. Shahzad Zaheer and Sr. Executive Mr. Faisal Zafar met with the Honorable Prime Minister of Pakistan to discuss energy self-sufficiency."),
+    ]
+    n1, n2 = st.columns(2)
+    for i, (ic, ttl, dsc) in enumerate(news):
+        col = n1 if i % 2 == 0 else n2
+        with col:
+            st.markdown(f"""<div style='background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;
+                        padding:12px 14px;margin:5px 0;display:flex;gap:12px;align-items:flex-start;'>
+              <span style='font-size:20px;'>{ic}</span>
+              <div>
+                <div style='font-size:13px;font-weight:600;color:#1a2a4a;'>{ttl}</div>
+                <div style='font-size:12px;color:#6b7280;margin-top:3px;line-height:1.5;'>{dsc}</div>
+              </div>
+            </div>""", unsafe_allow_html=True)
+
+    # CSR
+    st.markdown("<div style='height:14px;'></div>", unsafe_allow_html=True)
+    st.markdown("#### 🌱 Corporate Social Responsibility")
+    st.markdown("""<div class='scard'>
+      <p style='color:#374151;font-size:13px;line-height:1.8;margin:0;'>
+        PEL demonstrates strong commitment to <b>sustainability and corporate social responsibility</b>.
+        The company provides safe, clean drinking water to schools, colleges and public libraries in its operating areas.
+        Electric water coolers with three-tier action filters are provided in deserving communities.
+        PEL also contributes to crisis management initiatives with both public and private sector collaboration,
+        supporting local communities with full commitment to social welfare.
+      </p>
+    </div>""", unsafe_allow_html=True)
+
+    # Stats
+    st.markdown("<div style='height:14px;'></div>", unsafe_allow_html=True)
+    st.markdown("#### 📊 Company Statistics")
     cs1, cs2, cs3, cs4 = st.columns(4)
     cs1.metric("Gas Production", "40 MMCFD", "National Grid")
-    cs2.metric("Exploration Blocks", "15+ Active", "Onshore & Offshore")
-    cs3.metric("New Discoveries", "4 Gas Fields", "Adding 65 MMCFD")
+    cs2.metric("JV Partners", "12+", "Pakistan, Kuwait, UK, Morocco")
+    cs3.metric("New Discoveries", "Zahrah North + 4", "Gas Fields")
     cs4.metric("Est.", "1994", "Islamabad, Pakistan")
 
-    st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
-    st.markdown("#### Contact Information")
+    # Contact
+    st.markdown("<div style='height:14px;'></div>", unsafe_allow_html=True)
+    st.markdown("#### 📞 Contact Information")
     ct1, ct2 = st.columns(2)
     with ct1:
         st.markdown("""<div class='scard'>
@@ -894,6 +980,7 @@ with tabs[7]:
           <div style='font-size:13px;color:#374151;line-height:2;'>
             📍 20 Margalla Road, F-8/3, Islamabad, Pakistan<br>
             📞 +92-51-2287170 to 2287175<br>
+            📠 Fax: +92-51-2287154 to 2287155<br>
             🌐 <a href="https://www.pepl.com.pk" target="_blank" style="color:#1a3a6b;">www.pepl.com.pk</a>
           </div>
         </div>""", unsafe_allow_html=True)
@@ -907,6 +994,7 @@ with tabs[7]:
           </div>
         </div>""", unsafe_allow_html=True)
 
+    # Developer
     st.markdown("<div style='height:1px;background:#e5e7eb;margin:20px 0;'></div>", unsafe_allow_html=True)
     st.markdown("#### 👨‍💻 Developed By")
     d1, d2 = st.columns([1, 3])
